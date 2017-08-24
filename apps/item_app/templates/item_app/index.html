@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+</style>
+</head>
+<body>
+   welcome {{request.session.user_username}}&nbsp;|&nbsp; <a href="/item/logout">logout</a>&nbsp;|&nbsp; <a href="/item/add">add item</a>
+   <table id="table 1">
+       <h1>Your wish list</h1>
+  <tr>
+    <th>item</th>
+    <th>added by</th>
+    <th>dated added</th>
+    <th>actions</th>
+  </tr>
+{%for x in items%}
+    <tr>
+        <td><a href="item/show/{{item}}">  {{x.item}}</a></td>
+        <td>{{request.session.user_username}}</td>
+        <td>{{x.created_at}}</td>
+        {%if not p in items_made.all%}
+        <td><a href="/item/remove/{{item_id}}/{{request.session.user_id}}"> remove</a>
+            {%endif%}
+    </tr>
+    {%endfor%}
+   </table>
+<br><br><br>
+
+
+
+
+   <table>
+       <h2>other peoples wish list </h2>
+  <tr>
+    <th>item</th>
+    <th>added by</th>
+    <th>dated added</th>
+    <th>actions</th>
+  </tr>
+    {%for z in user%}
+    
+    <tr>
+        <td>{{z.items_made}}</td>
+        <td>{{z.username}}</td>
+        <td>{{z.created_at}}</td>
+        {%if not p in users.items_made.all%}
+        <td><a href="/item/add_to/{{item_id}}">add</td>
+            {%endif%}
+    </tr>
+    
+    {%endfor%}
+   </table>
+</body>
+</html>
